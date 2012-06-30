@@ -49,7 +49,7 @@ public class MyContentDirectoryService extends AbstractContentDirectoryService {
                     "103", "3", // 101 is the Item ID, 3 is the parent Container ID
                     "The Alphabeat (Radio Edit)",
                     creator, album, artist,
-                    new Res(mimeType, 123456l, "00:03:26", 8192l, "http://87.230.103.85:80")
+                    new Res(mimeType, 123456l, "00:03:26", 16000l, "http://87.230.103.85:80")
             ));
 
             // 
