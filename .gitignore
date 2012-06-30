@@ -1,0 +1,10 @@
+*.class
+bin
+gen
+.DS_Store
+.classpath
+.project
+.metadata
+.settings
+.svn
+project.properties
