@@ -39,7 +39,7 @@ public class MyMediaServer extends LocalDevice {
 
 		ManufacturerDetails manufacturerDetails = new ManufacturerDetails("kodra");
 		ModelDetails modelDetails = new ModelDetails("DemoMediaServer", "A demo media server.", "v1");
-		DeviceDetails details = new DeviceDetails("MyUPnP", manufacturerDetails, modelDetails);
+		DeviceDetails details = new DeviceDetails("My UPnP", manufacturerDetails, modelDetails);
 
 		// Icon icon = new Icon("image/png", 48, 48, 8, ???);
 
