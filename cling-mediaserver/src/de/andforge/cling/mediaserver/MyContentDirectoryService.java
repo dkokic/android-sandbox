@@ -1,79 +1,93 @@
 package de.andforge.cling.mediaserver;
 
-import org.teleal.cling.support.contentdirectory.AbstractContentDirectoryService;
-import org.teleal.cling.support.contentdirectory.ContentDirectoryErrorCode;
-import org.teleal.cling.support.contentdirectory.ContentDirectoryException;
-import org.teleal.cling.support.contentdirectory.DIDLParser;
-import org.teleal.cling.support.model.BrowseFlag;
-import org.teleal.cling.support.model.BrowseResult;
-import org.teleal.cling.support.model.DIDLContent;
-import org.teleal.cling.support.model.PersonWithRole;
-import org.teleal.cling.support.model.Res;
-import org.teleal.cling.support.model.SortCriterion;
-import org.teleal.cling.support.model.item.MusicTrack;
-import org.teleal.common.util.MimeType;
+import org.fourthline.cling.support.contentdirectory.AbstractContentDirectoryService;
+import org.fourthline.cling.support.contentdirectory.ContentDirectoryErrorCode;
+import org.fourthline.cling.support.contentdirectory.ContentDirectoryException;
+import org.fourthline.cling.support.contentdirectory.DIDLParser;
+import org.fourthline.cling.support.model.BrowseFlag;
+import org.fourthline.cling.support.model.BrowseResult;
+import org.fourthline.cling.support.model.DIDLContent;
+import org.fourthline.cling.support.model.PersonWithRole;
+import org.fourthline.cling.support.model.Res;
+import org.fourthline.cling.support.model.SortCriterion;
+import org.fourthline.cling.support.model.container.Container;
+import org.fourthline.cling.support.model.container.StorageFolder;
+import org.fourthline.cling.support.model.item.MusicTrack;
+import org.seamless.util.MimeType;
+
+import android.util.Log;
 
 public class MyContentDirectoryService extends AbstractContentDirectoryService {
 
-    @Override
-    public BrowseResult browse(String objectID, BrowseFlag browseFlag,
-                               String filter,
-                               long firstResult, long maxResults,
-                               SortCriterion[] orderby) throws ContentDirectoryException {
-        try {
+	@Override
+	public BrowseResult browse(String objectID, BrowseFlag browseFlag, String filter, long firstResult,
+			long maxResults, SortCriterion[] orderby) throws ContentDirectoryException {
 
-            // create the DIDL content dynamically ...
+		Log.i("MyContentDirectoryService", "browse(): objectID = " + objectID + ", browseFlag = " + browseFlag);
+		Log.i("MyContentDirectoryService", "browse(): filter = " + filter + ", firstResult = " + firstResult
+				+ ", maxResults = " + maxResults);
+		Log.i("MyContentDirectoryService", "browse(): orderby = " + orderby);
 
-            DIDLContent didl = new DIDLContent();
+		int resultCount = 0;
 
-            String album = ("Nothing But The Beat");
-            String creator = "David Guetta"; // Required
-            PersonWithRole artist = new PersonWithRole(creator, "Performer");
-            MimeType mimeType = new MimeType("audio", "mpeg");
+		try {
 
-            didl.addItem(new MusicTrack(
-                    "101", "3", // 101 is the Item ID, 3 is the parent Container ID
-                    "Planet Radio - The Club",
-                    creator, album, artist,
-                    new Res(mimeType, 99999999l, "05:00:00", 8192l, "http://192.168.1.109:9999/http://streams.planetradio.de/plrchannels/mp3/hqdjbeats.mp3")
-            ));
+			// create the DIDL content dynamically ...
 
-            didl.addItem(new MusicTrack(
-                    "102", "3",
-                    "Sweat (Snoop Dogg vs. David Guetta) [Remix]",
-                    creator, album, artist,
-                    new Res(mimeType, 2222222l, "00:03:16", 8192l, "http://open.spotify.com/track/6NqmVXFFJ75ne1BnDiPSfi")
-            ));
+			DIDLContent didl = new DIDLContent();
 
-            didl.addItem(new MusicTrack(
-                    "103", "3", // 101 is the Item ID, 3 is the parent Container ID
-                    "The Alphabeat (Radio Edit)",
-                    creator, album, artist,
-                    new Res(mimeType, 123456l, "00:03:26", 16000l, "http://87.230.103.85:80")
-            ));
+			if (BrowseFlag.METADATA.equals(browseFlag)) {
 
-            // 
+				if ("0".equalsIgnoreCase(objectID)) {
+					didl.addContainer(new StorageFolder("0", "-1", "root", "me", 2, null));
+					resultCount = 1;
+				}
 
-            // Create more tracks...
+			} else {
 
-            // Count and total matches is 2
-            return new BrowseResult(new DIDLParser().generate(didl), 3, 3);
+				if ("0".equalsIgnoreCase(objectID)) {
+					didl.addContainer(new StorageFolder("1", "0", "Webradio", "me", 3, null));
+					didl.addContainer(new StorageFolder("2", "0", "Mediathek", "me", 0, null));
+					resultCount = 2;
+				}
 
-        } catch (Exception ex) {
-            throw new ContentDirectoryException(
-                    ContentDirectoryErrorCode.CANNOT_PROCESS,
-                    ex.toString()
-            );
-        }
-    }
+				if ("1".equalsIgnoreCase(objectID)) {
 
-    @Override
-    public BrowseResult search(String containerId,
-                               String searchCriteria, String filter,
-                               long firstResult, long maxResults,
-                               SortCriterion[] orderBy) throws ContentDirectoryException {
-        // You can override this method to implement searching!
-        return super.search(containerId, searchCriteria, filter, firstResult, maxResults, orderBy);
-    }
+					String album = ("Nothing But The Beat");
+					String creator = "David Guetta"; // Required
+					PersonWithRole artist = new PersonWithRole(creator, "Performer");
+					MimeType mimeType = new MimeType("audio", "mpeg");
+
+					didl.addItem(new MusicTrack("101", "1", "Planet Radio - The Club", creator, album, artist, new Res(
+							mimeType, new Long(99999999l), "05:00:00", new Long(8192l),
+							"http://streams.planetradio.de/plrchannels/mp3/hqdjbeats.mp3")));
+
+					didl.addItem(new MusicTrack("102", "1", "Sweat (Snoop Dogg vs. David Guetta) [Remix]", creator,
+							album, artist, new Res(mimeType, 2222222l, "00:03:16", 8192l,
+									"http://open.spotify.com/track/6NqmVXFFJ75ne1BnDiPSfi")));
+
+					didl.addItem(new MusicTrack("103", "1", "The Alphabeat (Radio Edit)", creator, album, artist,
+							new Res(mimeType, 500000000l, "05:00:00", 16000l, "http://87.230.103.85:80")));
+
+				}
+			}
+
+			return new BrowseResult(new DIDLParser().generate(didl), resultCount, resultCount);
+
+		} catch (Exception ex) {
+			throw new ContentDirectoryException(ContentDirectoryErrorCode.CANNOT_PROCESS, ex.toString());
+		}
+	}
+
+	@Override
+	public BrowseResult search(String containerId, String searchCriteria, String filter, long firstResult,
+			long maxResults, SortCriterion[] orderBy) throws ContentDirectoryException {
+		// You can override this method to implement searching!
+
+		Log.i("MyContentDirectoryService", "search(): containerId = " + containerId + ", searchCriteria = "
+				+ searchCriteria);
+
+		return super.search(containerId, searchCriteria, filter, firstResult, maxResults, orderBy);
+	}
 
 }

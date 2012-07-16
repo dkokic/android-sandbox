@@ -3,24 +3,24 @@ package de.andforge.cling.mediaserver;
 import java.io.IOException;
 import java.net.URI;
 
-import org.teleal.cling.binding.LocalServiceBindingException;
-import org.teleal.cling.binding.annotations.AnnotationLocalServiceBinder;
-import org.teleal.cling.model.DefaultServiceManager;
-import org.teleal.cling.model.ValidationException;
-import org.teleal.cling.model.meta.DeviceDetails;
-import org.teleal.cling.model.meta.DeviceIdentity;
-import org.teleal.cling.model.meta.Icon;
-import org.teleal.cling.model.meta.LocalDevice;
-import org.teleal.cling.model.meta.LocalService;
-import org.teleal.cling.model.meta.ManufacturerDetails;
-import org.teleal.cling.model.meta.ModelDetails;
-import org.teleal.cling.model.types.DeviceType;
-import org.teleal.cling.model.types.UDADeviceType;
-import org.teleal.cling.model.types.UDN;
-import org.teleal.cling.support.connectionmanager.ConnectionManagerService;
-import org.teleal.cling.support.model.Protocol;
-import org.teleal.cling.support.model.ProtocolInfo;
-import org.teleal.cling.support.model.ProtocolInfos;
+import org.fourthline.cling.binding.LocalServiceBindingException;
+import org.fourthline.cling.binding.annotations.AnnotationLocalServiceBinder;
+import org.fourthline.cling.model.DefaultServiceManager;
+import org.fourthline.cling.model.ValidationException;
+import org.fourthline.cling.model.meta.DeviceDetails;
+import org.fourthline.cling.model.meta.DeviceIdentity;
+import org.fourthline.cling.model.meta.Icon;
+import org.fourthline.cling.model.meta.LocalDevice;
+import org.fourthline.cling.model.meta.LocalService;
+import org.fourthline.cling.model.meta.ManufacturerDetails;
+import org.fourthline.cling.model.meta.ModelDetails;
+import org.fourthline.cling.model.types.DeviceType;
+import org.fourthline.cling.model.types.UDADeviceType;
+import org.fourthline.cling.model.types.UDN;
+import org.fourthline.cling.support.connectionmanager.ConnectionManagerService;
+import org.fourthline.cling.support.model.Protocol;
+import org.fourthline.cling.support.model.ProtocolInfo;
+import org.fourthline.cling.support.model.ProtocolInfos;
 
 import android.net.Uri;
 
@@ -76,7 +76,7 @@ public class MyMediaServer extends LocalDevice {
 				"DLNA.ORG_PN=MP3;DLNA.ORG_OP=01");
 		ProtocolInfo protocolInfo2 = new ProtocolInfo(Protocol.HTTP_GET, ProtocolInfo.WILDCARD, "video/mpeg",
 				"DLNA.ORG_PN=MPEG1;DLNA.ORG_OP=01;DLNA.ORG_CI=0");
-		final ProtocolInfos sourceProtocols = new ProtocolInfos(protocolInfo1, protocolInfo2);
+		final ProtocolInfos sourceProtocols = new ProtocolInfos(protocolInfo1);
 
 		connectionManagerService.setManager(new DefaultServiceManager<ConnectionManagerService>(
 				connectionManagerService, null) {
